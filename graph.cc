@@ -1,56 +1,31 @@
-using namespace std;
+#include <vector>
+#include "graph.hh"
 
-class vertex
+Edge::Edge(int startNode, int endNode)
 {
-private:
-    /* data */
-public:
-    vertex(/* args */);
-    ~vertex();
-};
+    weight = 0;
+    this->startNode = startNode;
+    this->endNode = endNode;
+}
 
-vertex::vertex(/* args */)
+Edge::~Edge()
 {
 }
 
-vertex::~vertex()
+AdjacencyList::AdjacencyList(int size)
+{
+    edges.resize(size);
+}
+
+AdjacencyList::~AdjacencyList()
 {
 }
 
-
-
-class edge
+Graph::Graph(int size)
 {
-private:
-    /* data */
-public:
-    edge(/* args */);
-    ~edge();
-};
-
-edge::edge(/* args */)
-{
+    graph = new AdjacencyList(size);
 }
 
-edge::~edge()
-{
-}
-
-
-
-class graph
-{
-private:
-    /* data */
-public:
-    graph(/* args */);
-    ~graph();
-};
-
-graph::graph(/* args */)
-{
-}
-
-graph::~graph()
+Graph::~Graph()
 {
 }
