@@ -11,7 +11,8 @@ int main(int argc, char const *argv[])
     g.addEdge(1,3);
     g.addEdge(4,2);
     g.addEdge(6,1);
-    g.addEdge(4,5);
+
+    g.printGraph();
 
     return 0;
 }
