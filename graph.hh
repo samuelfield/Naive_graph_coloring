@@ -16,10 +16,11 @@ class Vertex
 private:
     int name;
     int value;
-    std::vector<Edge> neighbors;
-    std::vector<Edge>::iterator edge_i;
+    std::vector<Edge*> neighbors;
+    std::vector<Edge*>::iterator edge_i;
 public:
-    Vertex(int value);
+    Vertex(int name, int value = 0);
+    ~Vertex();
     void addEdge(unsigned int endNode, int weight = 0);
     void setValue(int value);
     void setName(int name);
@@ -32,11 +33,13 @@ public:
 class Graph
 {
 private:
-    std::vector<Vertex> graph;
-    std::vector<Vertex>::iterator vertex_i;
+    std::vector<Vertex*> graph;
+    std::vector<Vertex*>::iterator vertex_i;
 public:
     Graph();
+    ~Graph();
     void addEdge(unsigned int startNode, unsigned int endNode, int weight = 0);
+    void addVertex(unsigned int startNode, unsigned int endNode, int value = 0);
     void setVertexValue(unsigned int vertex, int value);
     bool checkDuplicate(unsigned int startNode, unsigned int endNode);
     void printGraph();

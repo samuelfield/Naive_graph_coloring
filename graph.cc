@@ -15,15 +15,24 @@ int Edge::getEndNode()
 }
 
 // Vertex Functions
-Vertex::Vertex(int value = 0)
+Vertex::Vertex(int name, int value)
 {
-    name = 0;
+    this->name = name;
     this->value = value;
+}
+
+Vertex::~Vertex()
+{
+    for (edge_i = neighbors.begin(); edge_i != neighbors.end(); edge_i++)
+    {
+        delete *edge_i;
+    }
+    neighbors.clear();
 }
 
 void Vertex::addEdge(unsigned int endNode, int weight)
 { 
-    neighbors.push_back(Edge(endNode, weight));
+    neighbors.push_back(new Edge(endNode, weight));
 }
 
 void Vertex::setValue(int value)
@@ -50,9 +59,9 @@ Edge* Vertex::searchEdges(int endNode)
 {
     for (edge_i = neighbors.begin(); edge_i != neighbors.end(); edge_i++)
     {
-        if (edge_i->getEndNode() == endNode)
+        if ((*edge_i)->getEndNode() == endNode)
         {
-            return &(*edge_i);
+            return *edge_i;
         }
     }
 
@@ -63,7 +72,10 @@ void Vertex::printNeighbors()
 {
     for (edge_i = neighbors.begin(); edge_i != neighbors.end(); edge_i++)
     {
-        std::cout << edge_i->getEndNode() << " ";
+        if (*edge_i != NULL)
+        {
+            std::cout << (*edge_i)->getEndNode() << " ";
+        }
     }
 
     std::cout << "\n";
@@ -72,6 +84,15 @@ void Vertex::printNeighbors()
 // Graph functions 
 Graph::Graph()
 {
+}
+
+Graph::~Graph()
+{
+    for (vertex_i = graph.begin(); vertex_i != graph.end(); vertex_i++)
+    {
+        delete *vertex_i;
+    }
+    graph.clear();
 }
 
 void Graph::addEdge(unsigned int startNode, unsigned int endNode, int weight)
@@ -83,13 +104,23 @@ void Graph::addEdge(unsigned int startNode, unsigned int endNode, int weight)
         graph.resize(maxNodeVal * 2);
     }
 
+    if (graph[startNode] == NULL)
+    {
+        graph[startNode] = new Vertex(startNode);
+    }
+
+    if (graph[endNode] == NULL)
+    {
+        graph[endNode] = new Vertex(endNode);
+    }
+
     if(checkDuplicate(startNode, endNode))
     {
         std::cout << "Edge (" << startNode << "," << endNode << ") already exists!\n";
     }
 
-    graph[startNode].setName(startNode);
-    graph[startNode].addEdge(endNode, weight);
+    graph[startNode]->setName(startNode);
+    graph[startNode]->addEdge(endNode, weight);
 }
 
 void Graph::setVertexValue(unsigned int vertex, int value)
@@ -100,12 +131,12 @@ void Graph::setVertexValue(unsigned int vertex, int value)
         return;
     }
 
-    graph[vertex].setValue(value);
+    graph[vertex]->setValue(value);
 }
 
 bool Graph::checkDuplicate(unsigned int startNode, unsigned int endNode)
 {
-    if (graph[startNode].searchEdges(endNode) != NULL)
+    if (graph[startNode]->searchEdges(endNode) != NULL)
     {
         return true;
     }
@@ -119,7 +150,11 @@ void Graph::printGraph()
 {
     for (vertex_i = graph.begin(); vertex_i != graph.end(); vertex_i++)
     {
-        std::cout << vertex_i->getName() << " - ";
-        vertex_i->printNeighbors();
+        Vertex* v  = *vertex_i;
+        if (v != NULL)
+        {
+            std::cout << v->getName() << " - ";
+            v->printNeighbors();
+        }
     }
 }
