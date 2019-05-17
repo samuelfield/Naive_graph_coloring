@@ -40,11 +40,6 @@ void Vertex::setValue(int value)
     this->value = value;
 }
 
-void Vertex::setName(int name)
-{
-    this->name = name;
-}
-
 int Vertex::getValue()
 {
     return value;
@@ -118,9 +113,10 @@ void Graph::addEdge(unsigned int startNode, unsigned int endNode, int weight)
     {
         std::cout << "Edge (" << startNode << "," << endNode << ") already exists!\n";
     }
-
-    graph[startNode]->setName(startNode);
-    graph[startNode]->addEdge(endNode, weight);
+    else
+    {
+        graph[startNode]->addEdge(endNode, weight);
+    }
 }
 
 void Graph::setVertexValue(unsigned int vertex, int value)
@@ -148,6 +144,7 @@ bool Graph::checkDuplicate(unsigned int startNode, unsigned int endNode)
 
 void Graph::printGraph()
 {
+    std::cout << "\nGraph (adjacency list form):\n";
     for (vertex_i = graph.begin(); vertex_i != graph.end(); vertex_i++)
     {
         Vertex* v  = *vertex_i;

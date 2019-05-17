@@ -23,7 +23,6 @@ public:
     ~Vertex();
     void addEdge(unsigned int endNode, int weight = 0);
     void setValue(int value);
-    void setName(int name);
     int getValue();
     int getName();
     Edge* searchEdges(int endNode);
