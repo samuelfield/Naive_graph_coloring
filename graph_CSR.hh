@@ -1,5 +1,8 @@
 #include <vector>
 
+#ifndef GRAPH_CSR_H
+#define GRAPH_CSR_H
+
 /* Graph data structure */
 
 /*
@@ -31,3 +34,5 @@ public:
     void randomizeVertexValues();
     void printGraph();
 };
+
+#endif

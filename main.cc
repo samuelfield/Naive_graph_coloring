@@ -1,5 +1,6 @@
 #include <iostream>
 #include "graph_CSR.hh"
+#include "coloring.hh"
 
 int main(int argc, char const *argv[])
 {
@@ -14,6 +15,8 @@ int main(int argc, char const *argv[])
 
     g.randomizeVertexValues();
     g.printGraph();
+
+    boman_coloring(&g);
 
     return 0;
 }
