@@ -20,14 +20,11 @@ private:
     std::vector<int> inEdgeIdxs;
     std::vector<int> vertexValues;
     std::vector<int> srcIndex;
-    std::vector<int>::iterator srcIndexIt;
     std::vector<int> edgeValues;
-    std::vector<int>::iterator edgeValuesIt;
-    void insertEdge(std::vector<int> edgeVector, int value, unsigned int insertIndex);
 public:
     Graph(unsigned int numVertices, unsigned int numEdges);
     ~Graph();
     void addEdge(unsigned int startV, unsigned int endV, int weight = 0);
     void setVertexValue(unsigned int vertex, int value);
-    // void printGraph();
+    void printGraph();
 };
