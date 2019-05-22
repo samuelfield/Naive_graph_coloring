@@ -17,14 +17,17 @@ class Graph
 private:
     unsigned int numVertices;
     unsigned int currentNumEdges;
-    std::vector<int> inEdgeIdxs;
+    unsigned int maxDegree;
+    std::vector<unsigned int> inEdgeIdxs;
     std::vector<int> vertexValues;
-    std::vector<int> srcIndex;
+    std::vector<unsigned int> vertexDegree;
+    std::vector<unsigned int> srcIndex;
     std::vector<int> edgeValues;
 public:
     Graph(unsigned int numVertices, unsigned int numEdges);
     ~Graph();
     void addEdge(unsigned int startV, unsigned int endV, int weight = 0);
     void setVertexValue(unsigned int vertex, int value);
+    void randomizeVertexValues();
     void printGraph();
 };

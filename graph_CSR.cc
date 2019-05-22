@@ -1,13 +1,15 @@
 #include <iostream>
-#include <vector>
+#include <random>
 #include "graph_CSR.hh"
 
 Graph::Graph(unsigned int numVertices, unsigned int numEdges)
 {
     this->numVertices = numVertices;
     this->currentNumEdges = 0;
+    this->maxDegree = 0;
     inEdgeIdxs.resize(numVertices + 1);
     vertexValues.resize(numVertices);
+    vertexDegree.resize(numVertices);
     srcIndex.resize(numEdges);
     edgeValues.resize(numEdges);
 
@@ -40,8 +42,26 @@ void Graph::addEdge(unsigned int startV, unsigned int endV, int weight)
         inEdgeIdxs[i]++;
     }
 
+    // Increase degree of vertex and check max vertex
+    vertexDegree[endV]++;
+    if (vertexDegree[endV] > this->maxDegree)
+    {
+        this->maxDegree = vertexDegree[endV];
+    }
+
     // Increase the value measuring the current number of edges
     currentNumEdges++;
+}
+
+void Graph::randomizeVertexValues()
+{
+    unsigned int maxVertVal = maxDegree + 1;
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(0, maxVertVal);
+
+    for (auto& v : vertexValues)
+        v = dist(mt);
 }
 
 void Graph::setVertexValue(unsigned int vertex, int value)
@@ -60,6 +80,13 @@ void Graph::printGraph()
 
     std::cout << "\nVertex Values:" << std::endl;
     for (auto &i : vertexValues)
+    {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "\nVertex Degree:" << std::endl;
+    for (auto &i : vertexDegree)
     {
         std::cout << i << " ";
     }

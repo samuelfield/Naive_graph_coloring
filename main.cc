@@ -12,6 +12,7 @@ int main(int argc, char const *argv[])
     g.addEdge(3,1);
     g.addEdge(5,0);
 
+    g.randomizeVertexValues();
     g.printGraph();
 
     return 0;
