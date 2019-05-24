@@ -11,8 +11,8 @@ public:
     Scheduler(uint32_t size, bool initializer = true);
     ~Scheduler();
 
-    void Scheduler::setItem(uint32_t item, bool trigger);
-    bool Scheduler::checkItem(uint32_t item);
-    bool Scheduler::notDone();
+    void setItem(uint32_t item, bool trigger);
+    bool checkItem(uint32_t item);
+    bool notDone();
 };
 
