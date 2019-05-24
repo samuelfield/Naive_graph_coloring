@@ -40,7 +40,7 @@ private:
 public:
     Graph(GraphType gType, uint32_t numVertices, uint32_t numEdges);
     ~Graph();
-    uint32_t sizeNodes();
+    uint32_t sizeVertex();
     uint32_t sizeEdges();
     void addEdge(uint32_t startV, uint32_t endV, int weight = 1);
     void randomizeVertexValues();

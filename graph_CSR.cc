@@ -40,7 +40,7 @@ Graph::~Graph()
 {
 }
 
-uint32_t Graph::sizeNodes()
+uint32_t Graph::sizeVertex()
 {
     return numVertices;
 }
