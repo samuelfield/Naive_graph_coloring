@@ -5,6 +5,6 @@
 #define COLORING_H
 
 void boman_coloring(Graph& graph);
-void partition(Graph& graph);
+void naive_coloring(Graph& graph);
 
 #endif

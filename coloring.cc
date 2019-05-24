@@ -1,14 +1,16 @@
 #include <iostream>
 #include <thread>
+#include <cilk/cilk.h>
 #include "coloring.hh"
 
 // Boman coloring implementation
 void boman_coloring(Graph& graph)
 {
-    partition(graph);
 }
 
-void partition(Graph& graph)
+void naive_coloring(Graph& graph)
 {
-    unsigned int nthreads = std::thread::hardware_concurrency();
+    std::vector<int> neighbors;
+    graph.getNeighbors(neighbors, 0);
+
 }

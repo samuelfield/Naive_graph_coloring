@@ -1,4 +1,5 @@
 #include <vector>
+#include <inttypes.h>
 
 #ifndef GRAPH_CSR_H
 #define GRAPH_CSR_H
@@ -15,23 +16,37 @@
 * Possible TODO: Create function that maps graph input data to vertex names
 */
 
+enum class GraphType
+{
+    directed,
+    undirected
+};
+
 class Graph
 {
 private:
-    unsigned int numVertices;
-    unsigned int currentNumEdges;
-    unsigned int maxDegree;
-    std::vector<unsigned int> inEdgeIdxs;
+    GraphType gType;
+    uint32_t numVertices;
+    uint32_t currentNumEdges;
+    uint32_t maxDegree;
+    std::vector<uint32_t> inEdgeIdxs;
     std::vector<int> vertexValues;
-    std::vector<unsigned int> vertexDegree;
-    std::vector<unsigned int> srcIndex;
+    std::vector<uint32_t> vertexDegree;
+    std::vector<uint32_t> srcIndex;
     std::vector<int> edgeValues;
+    
+    void addDirectedEdge(uint32_t startV, uint32_t endV, int weight);
+    void addUndirectedEdge(uint32_t startV, uint32_t endV, int weight);
 public:
-    Graph(unsigned int numVertices, unsigned int numEdges);
+    Graph(GraphType gType, uint32_t numVertices, uint32_t numEdges);
     ~Graph();
-    void addEdge(unsigned int startV, unsigned int endV, int weight = 0);
-    void setVertexValue(unsigned int vertex, int value);
+    uint32_t sizeNodes();
+    uint32_t sizeEdges();
+    void addEdge(uint32_t startV, uint32_t endV, int weight = 1);
     void randomizeVertexValues();
+    void setVertexValue(uint32_t vertex, int value);
+    int getVertexValue(uint32_t vertex);
+    void getNeighbors(std::vector<int>& neighbors, uint32_t vertex);
     void printGraph();
 };
 

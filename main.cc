@@ -4,10 +4,11 @@
 
 int main(int argc, char const *argv[])
 {
-    Graph g(6,6);
+    int numVertices = 6;
+    int numEdges = 5;
+    Graph g(GraphType::undirected, numVertices, numEdges);
 
     g.addEdge(0,1,4);
-    g.addEdge(1,0);
     g.addEdge(3,4);
     g.addEdge(0,2);
     g.addEdge(3,1);
@@ -16,7 +17,7 @@ int main(int argc, char const *argv[])
     g.randomizeVertexValues();
     g.printGraph();
 
-    boman_coloring(&g);
+    naive_coloring(g);
 
     return 0;
 }
