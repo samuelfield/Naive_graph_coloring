@@ -50,6 +50,11 @@ uint32_t Graph::sizeEdges()
     return currentNumEdges;
 }
 
+uint32_t Graph::getMaxDeg()
+{
+    return maxDegree;
+}
+
 void Graph::addEdge(uint32_t startV, uint32_t endV, int weight)
 {
     switch(this->gType)
@@ -83,6 +88,10 @@ void Graph::addDirectedEdge(uint32_t startV, uint32_t endV, int weight)
 
     // Increase degree of vertex
     vertexDegree[endV]++;
+    if (vertexDegree[endV] > maxDegree)
+    {
+        this->maxDegree = vertexDegree[endV];
+    }
 
     // Increase the value measuring the current number of edges
     currentNumEdges++;
@@ -96,7 +105,7 @@ void Graph::addUndirectedEdge(uint32_t startV, uint32_t endV, int weight)
 
 void Graph::randomizeVertexValues()
 {
-    uint32_t maxVertVal = *std::max_element(vertexDegree.begin(), vertexDegree.end());
+    uint32_t maxVertVal = this->maxDegree;
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_int_distribution<int> dist(0, maxVertVal);
@@ -112,28 +121,38 @@ void Graph::setVertexValue(uint32_t vertex, int value)
     vertexValues[vertex] = value;
 }
 
-int Graph::getVertexValue(uint32_t vertex)
+int32_t Graph::getVertexValue(uint32_t vertex)
 {
     return vertexValues[vertex];
 }
 
-void Graph::getNeighbors(std::vector<int>& neighbors, uint32_t vertex)
+uint32_t Graph::getNeighbors(std::vector<int>& neighbors, uint32_t vertex)
 {
-    neighbors.resize(vertexDegree[vertex]);
-    auto startIter = srcIndex.begin() + inEdgeIdxs[vertex];
-    auto endIter = startIter + inEdgeIdxs[vertex+1];
-    std::copy(startIter, endIter, neighbors.begin());
+    uint32_t vDegree = vertexDegree[vertex]; 
+    neighbors.resize(vDegree);
+    copyNeighbours(neighbors, vertex);
+
+    return vDegree;
+}
+
+void Graph::copyNeighbours(std::vector<int>& neighbors, uint32_t vertex)
+{
+    for (uint32_t i = inEdgeIdxs[vertex]; i < inEdgeIdxs[vertex+1]; i++)
+    {
+        uint32_t n_i = i - inEdgeIdxs[vertex];
+        neighbors[n_i] = srcIndex[i];
+    }
 }
 
 void Graph::printGraph()
 {
     if (this->gType == GraphType::directed)
     {
-        std::cout << "Graph Type: Directed" << std::endl;
+        std::cout << "\n\nGraph Type: Directed" << std::endl;
     }
     else
     {
-        std::cout << "Graph Type: Undirected" << std::endl;
+        std::cout << "\n\nGraph Type: Undirected" << std::endl;
     }
     
     std::cout << "\nIn Edge Indexes:" << std::endl;

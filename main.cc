@@ -19,6 +19,8 @@ int main(int argc, char const *argv[])
 
     naive_coloring(g);
 
+    g.printGraph();
+
     return 0;
 }
 

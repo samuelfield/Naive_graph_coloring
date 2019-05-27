@@ -13,6 +13,6 @@ public:
 
     void setItem(uint32_t item, bool trigger);
     bool checkItem(uint32_t item);
-    bool notDone();
+    bool completed();
 };
 

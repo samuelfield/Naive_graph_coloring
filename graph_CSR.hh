@@ -37,16 +37,18 @@ private:
     
     void addDirectedEdge(uint32_t startV, uint32_t endV, int weight);
     void addUndirectedEdge(uint32_t startV, uint32_t endV, int weight);
+    void copyNeighbours(std::vector<int>& neighbors, uint32_t vertex);
 public:
     Graph(GraphType gType, uint32_t numVertices, uint32_t numEdges);
     ~Graph();
     uint32_t sizeVertex();
     uint32_t sizeEdges();
+    uint32_t getMaxDeg();
     void addEdge(uint32_t startV, uint32_t endV, int weight = 1);
     void randomizeVertexValues();
     void setVertexValue(uint32_t vertex, int value);
-    int getVertexValue(uint32_t vertex);
-    void getNeighbors(std::vector<int>& neighbors, uint32_t vertex);
+    int32_t getVertexValue(uint32_t vertex);
+    uint32_t getNeighbors(std::vector<int>& neighbors, uint32_t vertex);
     void printGraph();
 };
 

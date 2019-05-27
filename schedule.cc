@@ -22,14 +22,14 @@ bool Scheduler::checkItem(uint32_t item)
     return schedule[item];
 }
 
-bool Scheduler::notDone()
+bool Scheduler::completed()
 {
-    std::lock_guard<std::mutex> guard(scheduleMutex);
+    // std::lock_guard<std::mutex> guard(scheduleMutex);
     for (auto &&i : schedule)
     {
         if (i)
-            return true;
+            return false;
     }
     
-    return false;
+    return true;
 }
