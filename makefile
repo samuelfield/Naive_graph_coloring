@@ -1,2 +1,23 @@
-graphmake: main.cc graph_CSR.cc graph_CSR.hh coloring.cc coloring.hh schedule.cc schedule.hh
-	g++ -Wall -fcilkplus -o graph_example main.cc graph_CSR.cc graph_CSR.hh coloring.cc coloring.hh schedule.cc schedule.hh
+EXE = graph_example
+
+SRC_DIR = src
+OBJ_DIR = obj
+
+SRC = $(wildcard $(SRC_DIR)/*.cc)
+OBJ = $(SRC:$(SRC_DIR)/%.cc=$(OBJ_DIR)/%.o)
+
+CPPFLAGS += -Iinclude
+CFLAGS += -Wall
+
+.PHONY: all clean
+
+all: $(EXE)
+
+$(EXE): $(OBJ)
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
+	$(CXX) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ

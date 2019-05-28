@@ -3,6 +3,7 @@
 #include <mutex>
 #include <cilk/cilk.h>
 #include "coloring.hh"
+#include "bitsetscheduler.h"
 #include "schedule.hh"
 
 // Boman coloring implementation
