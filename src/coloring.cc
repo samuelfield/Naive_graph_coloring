@@ -4,31 +4,39 @@
 #include <cilk/cilk.h>
 #include "coloring.hh"
 #include "bitsetscheduler.h"
-#include "schedule.hh"
 
 // Boman coloring implementation
 void boman_coloring(Graph& graph)
 {
 }
 
+
+// Naive coloring implementation
 void naive_coloring(Graph& graph)
 {
-    Scheduler vertexSchedule(graph.sizeVertex());
-    int j = 0;
-    while (j < 5)
+    uint32_t numVertices = graph.sizeVertex();
+
+    BitsetScheduler currentSchedule(numVertices);
+    currentSchedule.reset();
+    currentSchedule.scheduleAll(true);
+
+    long iter = 0;
+    while (iter < 5)
     {
+        iter++;
         // std::cout << std::endl;
-        if (vertexSchedule.completed())
+        if (currentSchedule.anyScheduledTasks() == false)
         {
             break;
         }
-        // std::cout << "Iter: " << j << std::endl; // Debug
-        for(uint32_t v = 0; v < graph.sizeVertex(); v++)
+        // std::cout << "Iter: " << iter << std::endl; // Debug
+
+        currentSchedule.newIteration();
+        for(uint32_t v = 0; v < numVertices; v++)
         {
-            if (vertexSchedule.checkItem(v))
+            if (currentSchedule.isScheduled(v))
             {
                 // std::cout << "vertex: " << v << std::endl; // Debug
-                vertexSchedule.setItem(v, false);
                 std::vector<int> neighbors;
                 uint32_t vDegree = graph.getNeighbors(neighbors, v);
                 bool scheduleNeighbors = false;
@@ -70,14 +78,10 @@ void naive_coloring(Graph& graph)
                     // std::cout << "vertex: " << v << "    New Value: " << graph.getVertexValue(v) << "    Old Value: "  << oldVal << std::endl; // Debug
                     for (uint32_t n = 0; n < vDegree; n++)
                     {
-                        vertexSchedule.setItem(neighbors[n], true);
+                        currentSchedule.schedule(neighbors[n]);
                     }
                 }
             }
         }
-
-        j++;
     }
-    
-
 }
