@@ -20,4 +20,4 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
 	$(CXX) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ
+	$(RM) $(OBJ)
