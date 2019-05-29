@@ -32,7 +32,7 @@ void naive_coloring(Graph& graph)
         // std::cout << "Iter: " << iter << std::endl; // Debug
 
         currentSchedule.newIteration();
-        for(uint32_t v = 0; v < numVertices; v++)
+        cilk_for(uint32_t v = 0; v < numVertices; v++)
         {
             if (currentSchedule.isScheduled(v))
             {
@@ -44,7 +44,7 @@ void naive_coloring(Graph& graph)
 
                 std::vector<bool> possibleValues(graph.getMaxDeg(), true);
 
-                for (uint32_t n = 0; n < vDegree; n++)
+                cilk_for(uint32_t n = 0; n < vDegree; n++)
                 {
                     int32_t neighVal = graph.getVertexValue(neighbors[n]);
                     possibleValues[neighVal] = false;
