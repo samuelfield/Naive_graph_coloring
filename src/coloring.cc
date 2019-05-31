@@ -45,7 +45,7 @@ void naive_coloring(Graph& graph)
                 std::vector<int> neighbors;
                 uint32_t vDegree = graph.getNeighbors(neighbors, v);
                 int32_t vMaxValue = (int32_t) vDegree + 1;
-                bool scheduleNeighbors = false;
+                bool scheduleNeighbors = true;
                 std::vector<bool> possibleValues(vMaxValue, true);
 
                 cilk_for(uint32_t n = 0; n < vDegree; n++)
@@ -63,6 +63,18 @@ void naive_coloring(Graph& graph)
                     // std::cout << "Color: " << newValue << " is " << possibleValues[newValue] << std::endl; // Debug 
                     if (possibleValues[newValue])
                     {
+                        // int32_t oldValue = graph.getVertexValue(v);
+                        // while (!CAS(graph.getVertexValueAddress(v), oldValue, newValue))
+                        // {
+                        //     oldValue = graph.getVertexValue(v);
+                        //     if (oldValue <= newValue) 
+                        //     {
+                        //         // No need to update distance. break
+                        //         scheduleNeighbors = false;
+                        //         break;
+                        //     }
+                        // }
+
                         if (graph.getVertexValue(v) != newValue)
                         {
                             // std::cout << "Does not equal: " << graph.getVertexValue(v) << " != " << newValue << std::endl; // Debug
