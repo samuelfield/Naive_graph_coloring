@@ -5,6 +5,7 @@
 #include "coloring.hh"
 #include "bitsetscheduler.h"
 #include "parallel.h"
+#include "util.h"
 
 // Boman coloring implementation
 void boman_coloring(Graph& graph)
@@ -65,7 +66,8 @@ void naive_coloring(Graph& graph)
                         if (graph.getVertexValue(v) != newValue)
                         {
                             // std::cout << "Does not equal: " << graph.getVertexValue(v) << " != " << newValue << std::endl; // Debug
-                            graph.setVertexValue(v, newValue);
+                            int32_t oldValue = graph.getVertexValue(v);
+                            CAS(graph.getVertexValueAddress(v), oldValue, newValue);
                         }
                         scheduleNeighbors = true;
                         
