@@ -48,6 +48,7 @@ public:
     void randomizeVertexValues();
     void setVertexValue(uint32_t vertex, int value);
     int32_t getVertexValue(uint32_t vertex);
+    int32_t* getVertexValueAddress(uint32_t vertex);
     uint32_t getNeighbors(std::vector<int>& neighbors, uint32_t vertex);
     void printGraph();
 };

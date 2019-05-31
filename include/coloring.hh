@@ -6,5 +6,6 @@
 
 void boman_coloring(Graph& graph);
 void naive_coloring(Graph& graph);
+bool assessGraph(Graph& graph);
 
 #endif

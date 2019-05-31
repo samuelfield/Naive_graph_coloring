@@ -15,11 +15,30 @@ int main(int argc, char const *argv[])
     g.addEdge(5,0);
 
     g.randomizeVertexValues();
-    g.printGraph();
+
+    for (uint32_t i = 0;  i < g.sizeVertex(); i++)
+    {
+        std::cout << g.getVertexValue(i) << " "; 
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
 
     naive_coloring(g);
 
-    g.printGraph();
+    if (assessGraph(g))
+    {
+        std::cout << "Graph Accectable:" << std::endl;
+    }
+    else
+    {
+        std::cout << "ERROR!:" << std::endl;
+    }
+    
+    for (uint32_t i = 0;  i < g.sizeVertex(); i++)
+    {
+        std::cout << g.getVertexValue(i) << " "; 
+    }
+    std::cout << std::endl;
 
     return 0;
 }

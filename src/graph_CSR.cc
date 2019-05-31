@@ -126,6 +126,11 @@ int32_t Graph::getVertexValue(uint32_t vertex)
     return vertexValues[vertex];
 }
 
+int32_t* Graph::getVertexValueAddress(uint32_t vertex)
+{
+    return &vertexValues[vertex];
+}
+
 uint32_t Graph::getNeighbors(std::vector<int>& neighbors, uint32_t vertex)
 {
     uint32_t vDegree = vertexDegree[vertex]; 
