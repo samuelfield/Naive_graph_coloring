@@ -36,6 +36,33 @@ Graph::Graph(GraphType gType, uint32_t numVertices, uint32_t numEdges)
     }
 }
 
+Graph::Graph(GraphType gType, uint32_t numEdges)
+{
+    this->gType = gType;
+    this->numVertices = 0;
+    this->currentNumEdges = 0;
+    this->maxDegree = 0;
+
+    // Resize vertex vectors to minimum size (1)
+    inEdgeIdxs.resize(2);
+    vertexValues.resize(1);
+    vertexDegree.resize(1);
+
+    // Resize edge vectors to number of edges based on graph type (undirected 
+    // or directed)
+    switch(this->gType)
+    {
+    case GraphType::directed:
+        srcIndex.resize(numEdges);
+        edgeValues.resize(numEdges);
+        break;
+    case GraphType::undirected:
+        srcIndex.resize(2 * numEdges);
+        edgeValues.resize(2 * numEdges);
+        break;
+    }
+}
+
 Graph::~Graph()
 {
 }
@@ -70,6 +97,21 @@ void Graph::addEdge(uint32_t startV, uint32_t endV, int weight)
 
 void Graph::addDirectedEdge(uint32_t startV, uint32_t endV, int weight)
 {
+    // Add vertex if not already present
+    uint32_t maxVertexID = std::max(startV, endV);
+    if (inEdgeIdxs.size() < maxVertexID + 1)
+    {
+        inEdgeIdxs.resize(maxVertexID + 1);
+    }
+    if (vertexValues.size() < maxVertexID)
+    {
+        vertexValues.resize(maxVertexID);
+    }
+    if (vertexDegree.size() < maxVertexID)
+    {
+        vertexDegree.resize(maxVertexID);
+    }
+
     // Insert edge into source index vector and edge values vector
     int insertIndex = inEdgeIdxs[endV+1];
     for (int i = currentNumEdges; i > insertIndex; i--)

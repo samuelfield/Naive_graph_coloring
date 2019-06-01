@@ -40,6 +40,7 @@ private:
     void copyNeighbours(std::vector<int>& neighbors, uint32_t vertex);
 public:
     Graph(GraphType gType, uint32_t numVertices, uint32_t numEdges);
+    Graph(GraphType gType, uint32_t numEdges);
     ~Graph();
     uint32_t sizeVertex();
     uint32_t sizeEdges();

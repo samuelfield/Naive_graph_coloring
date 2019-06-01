@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <list>
 #include "graph_CSR.hh"
 #include "coloring.hh"
 
@@ -44,6 +46,7 @@ int main(int argc, char const *argv[])
     }
 
 
+
     // Test 2
     // Small complete graph
     std::cout << std::endl;
@@ -83,6 +86,51 @@ int main(int argc, char const *argv[])
     else
     {
         std::cout << "Test 2 Failed!" << std::endl;
+    }
+
+    // Test 3
+    // SNAP facebook data set
+    std::cout << std::endl;
+    std::cout << "Test3:" << std::endl;
+
+    // Open facebook data
+    // Put edges into queue
+    // Get number of edges
+    std::list<std::pair<uint32_t, uint32_t>> edgeList;
+    std::string line;
+    std::ifstream facebookDS("datasets/facebook/0.edges");
+    uint32_t numLines = 0;
+    while (std::getline(facebookDS, line))
+    {
+        std::stringstream linestream(line);
+        std::string data;
+        uint32_t val1;
+        uint32_t val2;
+
+        linestream >> val1 >> val2;
+        std::pair<uint32_t, uint32_t> edge(val1,val2);
+        edgeList.push_back(edge);
+        numLines++;
+    }
+
+    numEdges = numLines;
+    Graph g3(GraphType::undirected, numEdges);
+
+    // Add edges in list to graph
+    for (auto e = edgeList.begin(); e != edgeList.end(); e++)
+    {   
+        g3.addEdge(e->first, e->second);
+    }
+ 
+    g3.randomizeVertexValues();
+    naive_coloring(g3);
+    if (assessGraph(g3))
+    {
+        std::cout << "Test 3 Passed!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Test 3 Failed!" << std::endl;
     }
 
     return 0;
