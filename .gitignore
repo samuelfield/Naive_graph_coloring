@@ -1,3 +1,4 @@
 .vscode
 graph_example
 *.o
+datasets/
