@@ -30,10 +30,10 @@ private:
     uint32_t currentNumEdges;
     uint32_t maxDegree;
     std::vector<uint32_t> inEdgeIdxs;
-    std::vector<int> vertexValues;
+    std::vector<int32_t> vertexValues;
     std::vector<uint32_t> vertexDegree;
     std::vector<uint32_t> srcIndex;
-    std::vector<int> edgeValues;
+    std::vector<int32_t> edgeValues;
     
     void addDirectedEdge(uint32_t startV, uint32_t endV, int weight);
     void addUndirectedEdge(uint32_t startV, uint32_t endV, int weight);

@@ -4,8 +4,7 @@
 #ifndef COLORING_H
 #define COLORING_H
 
-void boman_coloring(Graph& graph);
-void naive_coloring(Graph& graph);
+void naive_coloring(Graph& graph, bool verbose = true);
 bool assessGraph(Graph& graph);
 
 #endif

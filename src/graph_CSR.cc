@@ -39,14 +39,14 @@ Graph::Graph(GraphType gType, uint32_t numVertices, uint32_t numEdges)
 Graph::Graph(GraphType gType, uint32_t numEdges)
 {
     this->gType = gType;
-    this->numVertices = 0;
+    this->numVertices = 1;
     this->currentNumEdges = 0;
     this->maxDegree = 0;
 
     // Resize vertex vectors to minimum size (1)
-    inEdgeIdxs.resize(2);
-    vertexValues.resize(1);
-    vertexDegree.resize(1);
+    inEdgeIdxs.resize(this->numVertices + 1);
+    vertexValues.resize(this->numVertices);
+    vertexDegree.resize(this->numVertices);
 
     // Resize edge vectors to number of edges based on graph type (undirected 
     // or directed)
@@ -97,24 +97,29 @@ void Graph::addEdge(uint32_t startV, uint32_t endV, int weight)
 
 void Graph::addDirectedEdge(uint32_t startV, uint32_t endV, int weight)
 {
-    // Add vertex if not already present
+    // Add vertex if not already present and increase numVertices
     uint32_t maxVertexID = std::max(startV, endV);
-    if (inEdgeIdxs.size() < maxVertexID + 1)
+    uint32_t reqNumVertices = maxVertexID + 1;
+    uint32_t oldNumVertices = this->numVertices;
+    if (oldNumVertices < reqNumVertices)
     {
-        inEdgeIdxs.resize(maxVertexID + 1);
-    }
-    if (vertexValues.size() < maxVertexID)
-    {
-        vertexValues.resize(maxVertexID);
-    }
-    if (vertexDegree.size() < maxVertexID)
-    {
-        vertexDegree.resize(maxVertexID);
+        uint32_t fill_InEdgeIndex = inEdgeIdxs[oldNumVertices];
+        this->numVertices = reqNumVertices;
+        inEdgeIdxs.resize(this->numVertices + 1);
+        vertexValues.resize(this->numVertices);
+        vertexDegree.resize(this->numVertices);
+
+        // Fill the in edge index vector with previous last value
+        for (uint32_t i = oldNumVertices; i < this->numVertices + 1; i++)
+        {
+            // std::cout << i << std::endl;
+            inEdgeIdxs[i] = fill_InEdgeIndex;
+        }
     }
 
     // Insert edge into source index vector and edge values vector
-    int insertIndex = inEdgeIdxs[endV+1];
-    for (int i = currentNumEdges; i > insertIndex; i--)
+    uint32_t insertIndex = inEdgeIdxs[endV+1];
+    for (uint32_t i = this->currentNumEdges; i > insertIndex; i--)
     {
         srcIndex[i] = srcIndex[i-1];
         edgeValues[i] = edgeValues[i-1];
@@ -125,7 +130,7 @@ void Graph::addDirectedEdge(uint32_t startV, uint32_t endV, int weight)
     // Change the inEdgeInxs values for vertex labels greater than the end node
     for (uint32_t i = endV+1; i < numVertices + 1; i++)
     {
-        inEdgeIdxs[i]++;
+        this->inEdgeIdxs[i]++;
     }
 
     // Increase degree of vertex
@@ -202,33 +207,29 @@ void Graph::printGraph()
         std::cout << "\n\nGraph Type: Undirected" << std::endl;
     }
     
-    std::cout << "\nIn Edge Indexes:" << std::endl;
+    std::cout << "In Edge Indexes:" << std::endl;
     for (auto &i : inEdgeIdxs)
     {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
 
     std::cout << "\nVertex Values:" << std::endl;
     for (auto &i : vertexValues)
     {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
 
     std::cout << "\nVertex Degree:" << std::endl;
     for (auto &i : vertexDegree)
     {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
 
     std::cout << "\nSource Indexes:" << std::endl;
     for (auto &i : srcIndex)
     {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
 
     std::cout << "\nEdge Values:" << std::endl;
     for (auto &i : edgeValues)
